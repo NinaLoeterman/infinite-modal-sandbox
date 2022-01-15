@@ -10,11 +10,9 @@ const Modal = ({ closeModal }) => {
   };
 
   const escClose = useCallback(
-    (e) => {
-      const { keyCode } = e;
-      if (keyCode === 27) {
-        closeModal();
-      }
+    (event) => {
+      const { keyCode } = event;
+      if (keyCode === 27) closeModal();
     },
     [closeModal]
   );
