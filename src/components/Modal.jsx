@@ -1,12 +1,33 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { ModalContext } from "../context/ModalContext";
 import "./Modal.css";
 
 const Modal = ({ closeModal }) => {
   const openModal = useContext(ModalContext);
 
+  const close = (e) => {
+    if (e.target.className === "overlay") closeModal();
+  };
+
+  const escClose = useCallback(
+    (e) => {
+      const { keyCode } = e;
+      if (keyCode === 27) {
+        closeModal();
+      }
+    },
+    [closeModal]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", escClose);
+    return () => {
+      window.removeEventListener("keydown", escClose);
+    };
+  }, [escClose]);
+
   return (
-    <div className="overlay">
+    <div onClick={close} className="overlay">
       <div className="modal">
         <div>
           <div>IM A MODAL!</div>
